@@ -22,6 +22,12 @@ try:
 except Exception:  # noqa: BLE001
     warnings.filterwarnings("ignore", message=r".*RunnableWithMessageHistory.*")
 
+from dotenv import load_dotenv
+
+# Carrega o .env aqui tambem, e nao so no app.py: assim quem importar o
+# Assistente direto (um script proprio, o REPL do Python) tambem acha a chave.
+load_dotenv()
+
 from src.chain.builder import construir_chain_conversa
 from src.chain.memoria import com_memoria, historico_da_sessao
 from src.guardrails.moderation import (
