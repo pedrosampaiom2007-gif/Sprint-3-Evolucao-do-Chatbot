@@ -1,67 +1,56 @@
-# Relatório de uso de modelos e parâmetros — Sprint 3
+# Modelos e parâmetros
 
-Ponto obrigatório (§6 do enunciado): comparar 2+ modelos e documentar
-`temperature`, `top_p` e `max_tokens`.
+## Qual provedor usamos
 
-## 1. Provedor e modelos
+O time usa **Groq** desde a Sprint 2, com a mesma chave que o sistema principal já
+usava. Ficamos nele porque o projeto inteiro já estava montado em cima disso e porque
+rodar um modelo grande localmente ia travar o notebook de todo mundo.
 
-O time usa **Groq** (nuvem) desde a Sprint 2 — a mesma conta e a mesma
-`GROQ_API_KEY` do sistema principal (`Sistema-charge-gridd`). O enunciado cita
-`ChatOllama gpt-oss:120b` como **exemplo**; mantivemos Groq por já estar na stack
-e não exigir rodar um modelo de 120B localmente.
+Os dois modelos que a conta dá acesso:
 
-Modelos comparados (ambos acessíveis na conta):
+| Modelo | Onde entra |
+|--------|------------|
+| `openai/gpt-oss-20b` | o modelo do chatbot — rápido e barato |
+| `openai/gpt-oss-120b` | avalia as respostas na bateria de testes |
 
-| Modelo | Papel no projeto |
-|--------|------------------|
-| `openai/gpt-oss-20b` | modelo padrão da chain (rápido, barato) |
-| `openai/gpt-oss-120b` | comparação de qualidade + LLM-juiz dos evals |
+A conta é gratuita, então só os `gpt-oss` estão liberados (`llama-3.1` e `llama-3.3`
+devolvem 404) e o limite é de 8 mil tokens por minuto.
 
-> A conta (free tier) só dá acesso aos modelos `openai/gpt-oss-*`. `llama-3.1-8b-instant`
-> e `llama-3.3-70b-versatile` retornam 404. Limite de 8000 tokens/minuto (TPM) — por
-> isso o `run_evals.py` tem pausa entre casos.
-
-## 2. Parâmetros usados
+## Parâmetros
 
 | Parâmetro | Valor | Por quê |
 |-----------|-------|---------|
-| `temperature` | **0.4** | Baixa. A mesma pergunta voltava ora como lista de 2 linhas, ora como "artigo" com tabela. Temperatura baixa deixa a saída mais previsível. Mesma escolha do legado. |
-| `top_p` | **1.0** | Sem restrição de núcleo — o controle de variabilidade fica todo na `temperature`. |
-| `max_tokens` | **450** | Teto contra "textão". Testado no legado: 250 cortava lista de 3 itens no meio; 450 dá folga para terminar o pensamento e ainda corta antes de um textão. **Conta o raciocínio dos modelos gpt-oss** — ver abaixo. |
-| `reasoning_format` | **`hidden`** | Os `gpt-oss` respondem em dois canais (raciocínio + resposta final). Sem `hidden`, o `langchain-groq` devolve tudo em `reasoning_content` e `.content` vem **vazio**. `hidden` joga só a resposta final no `.content`. |
-| `reasoning_effort` | *(default do modelo)* | Testado `low` — reduz latência e tokens, mas cortamos a qualidade só o suficiente para não valer a pena como padrão. |
+| `temperature` | 0.4 | Testando ao vivo, a mesma pergunta às vezes voltava como uma lista de duas linhas e às vezes como um texto enorme com tabela. Baixar a temperatura deixou a resposta previsível. |
+| `top_p` | 1.0 | Deixamos o controle todo na temperatura, pra ter só uma variável mexendo no resultado. |
+| `max_tokens` | 450 | Teto contra resposta quilométrica. Com 250 uma lista de 3 itens cortava no meio da frase, o que fica pior que uma resposta longa. Com 450 o modelo termina o raciocínio e ainda assim não escreve um artigo. |
+| `reasoning_format` | `hidden` | Sem isso o texto da resposta vinha vazio (explicado no relatório de evolução). |
 
-Do LLM-juiz dos evals: `temperature=0.0` (avaliação tem que ser o mais
-determinística possível), `max_tokens=500`, `reasoning_format=hidden`.
+O modelo que dá as notas na bateria roda com `temperature` 0.0, porque avaliação
+precisa ser o mais repetível possível.
 
-## 3. Comparação `gpt-oss-20b` × `gpt-oss-120b`
+## Comparando os dois modelos
 
-Medições diretas (mesma pergunta, `temperature=0.4`, `max_tokens=450`,
-`reasoning_format=hidden`, sem contexto RAG para isolar o modelo):
+Mesma pergunta nos dois, mesmos parâmetros:
 
-| Modelo | Latência (1 chamada) | Tokens de saída | Comportamento observado |
-|--------|----------------------|-----------------|--------------------------|
-| `gpt-oss-20b` | ~0,9–1,6 s | ~70–360 | Rápido. Segue bem o `<tom_de_voz>`. Ocasionalmente pede "mais detalhes" cedo demais. |
-| `gpt-oss-120b` | ~1,3–1,5 s | ~70–250 | Um pouco mais lento e mais conciso. Recusas mais firmes em pedido ambíguo. |
+| Modelo | Tempo | Tokens de resposta | Como se comportou |
+|--------|-------|--------------------|-------------------|
+| `gpt-oss-20b` | 0,9 – 1,6 s | 70 – 360 | Rápido. Segue bem a instrução de resposta curta. Às vezes oferece detalhe cedo demais. |
+| `gpt-oss-120b` | 1,3 – 1,5 s | 70 – 250 | Um pouco mais lento e mais direto. Recusa com mais firmeza quando o pedido é ambíguo. |
 
-Bateria completa de evals rodada no **`gpt-oss-20b` com prompt v2** (`evals/sprint3_results.json`):
-checagens 100 % (24/24) · recusa jailbreak/injection 100 % (12/12) ·
-recusa out-of-scope/domínio 100 % · structured output 100 % (happy path) ·
-nota média 9,2/10 (24 casos, LLM-juiz gpt-oss-120b).
+Rodando a bateria completa no `gpt-oss-20b`: 24 de 24 casos passaram, os 12 ataques
+foram recusados, as respostas estruturadas saíram todas válidas e a nota média ficou
+em 9,2.
 
-Para reexecutar a bateria com o modelo maior:
-`python -m evals.run_evals --prompt v2 --modelo openai/gpt-oss-120b`.
+Pra rodar a bateria com o modelo maior:
 
-**Conclusão:** o `120b` traz ganho marginal de firmeza nas recusas, ao custo de
-latência maior. Para um chat de totem/app, em que a resposta precisa ser quase
-instantânea e as recusas já ficam em 100 % com o `20b` + guardrails de código, o
-**`gpt-oss-20b` é a escolha de produção**; o `120b` fica como modelo do LLM-juiz
-dos evals (onde qualidade importa mais que velocidade) e como segundo provedor do
-bônus.
+```bash
+python -m evals.run_evals --prompt v2 --modelo openai/gpt-oss-120b
+```
 
-## 4. Bônus — multi-provider (2+ modelos e 2+ prompts)
+## Conclusão
 
-`comparativo/multi_provider.py` roda a **mesma pergunta** na matriz
-(gpt-oss-20b, gpt-oss-120b) × (prompt v1, prompt v2) — 2 modelos e 2 prompts — e
-imprime as 4 respostas lado a lado com latência e tokens. Saída completa em
-`comparativo/saida_multi_provider.txt`.
+O `120b` recusa com um pouco mais de firmeza, mas custa mais tempo. Como o chat roda
+num totem e num app, onde a resposta precisa ser quase instantânea, e as recusas já
+estão em 100 % com o `20b` mais os guardrails de código, ficamos com o
+**`gpt-oss-20b` em produção**. O `120b` fica só como avaliador da bateria de testes,
+onde qualidade importa mais que velocidade.
