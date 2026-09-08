@@ -143,16 +143,19 @@ nos casos que pedem dado.
 
 ---
 
-## 5. Equipe e divisão de trabalho
+## 5. Equipe
 
-| Nome | RM | Tarefa principal |
-|------|----|------------------|
-| Pedro Sampaio Mochnacs Arruda | 573522 | Chain LCEL (`builder.py`), memória, integração das peças, coordenação |
-| Raul Sampaio Mochnacs Arruda | 573523 | Integração com o motor de dados, stub de tempo real, modo real (Postgres) |
-| Kevin Rodrigues de Melo | 571777 | RAG (port do legado) e base histórica `dados_rag.json` |
-| Luan de Araujo Carneiro | 573691 | Guardrails — `moderation.py` e `scope_validator.py` |
-| Pedro Ribeiro Lopes | 570083 | Structured output — schema Pydantic v2 e `field_validator` |
-| Pedro Vianna | 570747 | Eval set, `run_evals.py`, comparativo antes/depois, relatórios |
+| Nome | RM |
+|------|----|
+| Luan de Araujo Carneiro | 573691 |
+| Pedro Sampaio Mochnacs Arruda | 573522 |
+| Raul Sampaio Mochnacs Arruda | 573523 |
+| Pedro Ribeiro Lopes | 570083 |
+| Kevin Rodrigues de Melo | 571777 |
+| Pedro Vianna | 570747 |
+
+A Sprint 03 foi conduzida pelo grupo; a entrega por integrante segue o combinado
+com o professor (cada aluno responsável por uma sprint do Challenge).
 
 ---
 

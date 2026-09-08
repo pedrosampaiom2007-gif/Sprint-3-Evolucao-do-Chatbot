@@ -11,14 +11,14 @@ demonstrado por um comparativo antes/depois (pasta `comparativo/`).
 
 ## Equipe
 
-| Nome | RM | Tarefa principal |
-|------|----|------------------|
-| Pedro Sampaio Mochnacs Arruda | 573522 | Chain LCEL (`src/chain/builder.py`), memória, coordenação |
-| Raul Sampaio Mochnacs Arruda | 573523 | Integração com o motor de dados / stub (`src/integracao/`) |
-| Kevin Rodrigues de Melo | 571777 | RAG e base histórica (`src/rag.py`, `dados_rag.json`) |
-| Luan de Araujo Carneiro | 573691 | Guardrails (`src/guardrails/moderation.py`, `scope_validator.py`) |
-| Pedro Ribeiro Lopes | 570083 | Structured output — schema Pydantic v2 (`src/schemas/`) |
-| Pedro Vianna | 570747 | Evals, comparativo antes/depois e relatórios (`evals/`, `comparativo/`, `docs/`) |
+| Nome | RM |
+|------|----|
+| Luan de Araujo Carneiro | 573691 |
+| Pedro Sampaio Mochnacs Arruda | 573522 |
+| Raul Sampaio Mochnacs Arruda | 573523 |
+| Pedro Ribeiro Lopes | 570083 |
+| Kevin Rodrigues de Melo | 571777 |
+| Pedro Vianna | 570747 |
 
 ---
 
