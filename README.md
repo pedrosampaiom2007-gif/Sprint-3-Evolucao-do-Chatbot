@@ -1,15 +1,16 @@
-# Sprint 3 — Evolução do Chatbot ChargeGrid Intelligence
+# Chatbot ChargeGrid Intelligence — Sprint 3
 
 **EV Challenge — GoodWe / FIAP · Prompt and Artificial Intelligence · 2026.2**
-Challenge · Sprint 03 · Professor Jorge Luiz Gomes
+Turma 1CCPG
 
-Refactory do núcleo conversacional do chatbot de gestão de eletropostos para
-**LangChain (LCEL)**, evoluindo a versão manual das Sprints 1/2. O ganho é
-demonstrado por um comparativo antes/depois (pasta `comparativo/`).
+Assistente de gestão de eletropostos. Nesta sprint o núcleo da conversa foi reescrito
+em LangChain, com memória por tokens, resposta estruturada e uma camada de segurança
+contra prompt injection. O relatório de evolução está em
+[`docs/relatorio_evolucao.pdf`](docs/relatorio_evolucao.pdf).
 
 ---
 
-## Equipe — Turma 1CCPG
+## Equipe
 
 | Nome | RM |
 |------|----|
@@ -22,117 +23,119 @@ demonstrado por um comparativo antes/depois (pasta `comparativo/`).
 
 ---
 
-## O que a Sprint 3 entrega (escopo do enunciado)
+## Rodando o projeto
 
-| # | Item | Onde |
-|---|------|------|
-| 1 | Chain LCEL end-to-end `prompt \| llm \| parser` | `src/chain/builder.py` |
-| 2 | Memória por sessão com limite de **tokens**, 3+ turnos | `src/chain/memoria.py`, `app.py --demo` |
-| 3 | Structured output Pydantic v2 (`ConsultaRecarga` + `field_validator`) | `src/schemas/consulta_recarga.py` |
-| 4 | Context engineering: prompt versionado (XML) + medição com tiktoken | `prompts/`, `src/contexto.py` |
-| 5 | Segurança e guardrails — 5 camadas: normalização anti-ofuscação, ~35 padrões PT+EN, escopo GoodWe, prompt v2 reforçado, guarda de saída | `src/guardrails/` + `src/assistente.py` |
-| 6 | Eval set reexecutado + `sprint3_results.json` | `evals/` |
-| 7 | Relatório de modelos e parâmetros | `docs/relatorio_modelos.md` |
-| 8 | Relatório de evolução (PDF, ≤5 pág.) com tabela antes/depois | `docs/relatorio_evolucao.md` → `docs/relatorio_evolucao.pdf` |
-| Bônus | Multi-provider (2+ modelos e 2+ prompts) | `comparativo/multi_provider.py` |
-
----
-
-## Estrutura
-
-```
-prompts/
-  system_prompt_v1.md      prompt legado (Sprints 1/2) — baseline, congelado
-  system_prompt_v2.md      prompt refatorado (XML tagging, anti-injection, recusas de domínio)
-  CHANGELOG_PROMPTS.md      tabela de versões: o que mudou, por quê, ganho medido
-src/
-  chain/builder.py         a chain LCEL (conversa -> str · estruturada -> ConsultaRecarga)
-  chain/memoria.py         RunnableWithMessageHistory + janela por orçamento de tokens
-  schemas/consulta_recarga.py  schema Pydantic v2 do domínio EV
-  guardrails/moderation.py     jailbreak/injection: normaliza (anti-ofuscação) + ~35 padrões + guarda de saída
-  guardrails/scope_validator.py  escopo GoodWe / recusas de domínio (jurídico/financeiro/elétrico/comparação)
-  rag.py                   RAG por palavra-chave (portado do legado, sem alteração)
-  contexto.py              medição de tokens (tiktoken)
-  integracao/dados_sistema.py  fonte dos dados de tempo real (stub offline | Postgres real)
-  assistente.py            orquestração de um turno (guardrails -> chain -> memória)
-  util_formato.py          rede de segurança de formatação (remove tabela/cabeçalho)
-evals/
-  eval_set.json            24 casos: happy path, edge cases, 12x jailbreak/injection, out-of-scope, domínio restrito
-  run_evals.py             reexecuta e mede nota, tokens/turno, latência, acurácia do structured output
-  sprint3_results.json     resultado (gerado)
-comparativo/
-  run_comparativo.py       legado (manual) × LCEL nos mesmos casos → tabela antes/depois
-  multi_provider.py        bônus: matriz 2 modelos × 2 prompts
-  tabela_antes_depois.md   (gerado)
-docs/
-  relatorio_modelos.md     2+ modelos, temperature / top_p / max_tokens
-  relatorio_evolucao.md    fonte do PDF (estrutura do §8 do enunciado)
-legado/
-  chatbot_legado.py        cópia de entregas/chatbot.py (Sistema-charge-gridd) — o "antes"
-  ev_chargegrid.py         motor de dados (só p/ o modo real / comparativo)
-app.py                     CLI: --demo (3 turnos) | conversa livre
-```
-
----
-
-## Como rodar
+Precisa de Python 3.11 ou mais novo.
 
 ```bash
 python -m venv .venv
-.venv\Scripts\activate            # Windows  (source .venv/bin/activate no Linux/Mac)
-pip install -r requirements.txt
+.venv\Scripts\activate          # Windows
+# source .venv/bin/activate     # Linux / Mac
 
-copy .env.example .env            # e preencher GROQ_API_KEY
+pip install -r requirements.txt
 ```
+
+**Chave da API.** O chatbot usa a Groq. Crie uma chave gratuita em
+[console.groq.com/keys](https://console.groq.com/keys), copie o `.env.example` para
+`.env` e cole a chave lá:
+
+```
+GROQ_API_KEY=sua_chave_aqui
+```
+
+A chave do time não está no repositório — o `.env` é ignorado pelo git.
+
+Depois disso:
 
 ```bash
-python app.py --demo                          # 3 turnos encadeados (prova de memória)
-python app.py                                 # conversa livre no terminal
-
-python -m evals.run_evals --prompt v2         # roda o eval set -> evals/sprint3_results.json
-python -m evals.run_evals --prompt v1         # p/ comparar as duas versões de prompt
-python -m comparativo.run_comparativo         # tabela antes/depois (rode o eval v2 antes)
-python -m comparativo.multi_provider          # bônus multi-provider
-python -m unittest discover -s tests -v       # testes de lógica pura (offline)
+python app.py                  # conversa livre no terminal ("sair" encerra)
+python app.py --demo           # 3 turnos encadeados, mostrando a memória funcionando
 ```
 
-> **Sem API key no repositório.** `GROQ_API_KEY` vem do `.env` (gitignored). Os
-> evals usam `CHARGEGRID_FONTE=stub` (dados fixos, offline) para dar resultado
-> reprodutível.
+### Testes
+
+```bash
+python -m unittest discover -s tests -v     # 21 testes, rodam offline, sem chave
+python -m evals.run_evals --prompt v2       # bateria de 24 casos (precisa de chave)
+python -m comparativo.run_comparativo       # compara com a versão antiga
+```
+
+> A conta gratuita da Groq limita 8 mil tokens por minuto. A bateria completa faz
+> pausa entre os casos por causa disso; use `--pausa 5` se a sua conta for paga.
 
 ---
 
-## Arquitetura da chain
+## Como o chatbot funciona
 
 ```
-{"pergunta": "..."}
-      |
-      v
-_passo_contexto        RunnableLambda — roda o RAG / roteador de tempo real, preenche <contexto>
-      |
-      v
-ChatPromptTemplate     system (prompt vN) + MessagesPlaceholder(historico) + <contexto>/<pergunta>
-      |
-      v
-ChatGroq               openai/gpt-oss-20b · temperature 0.4 · max_tokens 450 · reasoning_format hidden
-      |
-      +--> StrOutputParser  --> sanitizar_resposta         (chain de conversa -> str)
-      +--> with_structured_output(ConsultaRecarga)         (chain estruturada -> objeto validado)
+pergunta
+   |
+   v
+guardrails         barram ataque e assunto perigoso antes de gastar chamada
+   |
+   v
+busca de contexto  procura os dados do sistema que a pergunta pede
+   |
+   v
+prompt             system prompt + historico da conversa + contexto + pergunta
+   |
+   v
+modelo (Groq)      openai/gpt-oss-20b
+   |
+   +--> texto, limpo de tabela e cabecalho        (conversa normal)
+   +--> objeto ConsultaRecarga validado           (quando se quer dado estruturado)
 ```
 
-A chain de conversa é envelopada por `RunnableWithMessageHistory`, que injeta o
-histórico da `session_id` no `MessagesPlaceholder` e o apara por orçamento de
-tokens (`HistoricoJanelaTokens`, equivalente ao `ConversationTokenBufferMemory`).
+A conversa fica guardada por sessão e é cortada por orçamento de tokens, então o
+custo e o tempo de cada turno têm teto.
+
+---
+
+## Onde está cada coisa
+
+```
+app.py                     o chatbot no terminal
+src/
+  assistente.py            junta guardrails + chain + memoria
+  chain/builder.py         monta a chain (contexto | prompt | modelo | parser)
+  chain/memoria.py         memoria por sessao, cortada por tokens
+  schemas/                 ConsultaRecarga — a resposta estruturada e suas validacoes
+  guardrails/moderation.py deteccao de prompt injection e conferencia da resposta
+  guardrails/scope_validator.py  assunto fora do escopo e dominios que exigem profissional
+  rag.py                   busca nos dados historicos
+  contexto.py              contagem de tokens
+  integracao/              dados do sistema (estacoes, faturamento, sessoes)
+  util_formato.py          tira tabela e cabecalho da resposta
+prompts/                   system prompt v1 e v2 + o que mudou entre eles
+evals/                     24 casos de teste + o resultado da ultima execucao
+comparativo/               versao antiga x versao nova, lado a lado
+docs/                      relatorio de evolucao (PDF) e relatorio de modelos
+legado/                    o chatbot das Sprints 1/2, usado so na comparacao
+tests/                     testes que rodam offline
+```
+
+---
+
+## Segurança
+
+O chatbot recusa tentativa de prompt injection, pedido pra revelar o próprio prompt,
+troca de personagem e pergunta fora do assunto. Também não dá conselho jurídico,
+financeiro ou de instalação elétrica — nesses casos ele orienta a procurar um
+profissional habilitado.
+
+A detecção roda antes da chamada ao modelo e não se deixa enganar por texto ofuscado
+(letra trocada por número, caractere invisível, letra espaçada). A resposta do modelo
+também é conferida antes de sair.
+
+Para testar: `python -m unittest tests.test_unit.TestModeration -v`.
 
 ---
 
 ## Limitações conhecidas
 
-- **Conta Groq (free tier):** só modelos `openai/gpt-oss-*` disponíveis; TPM de
-  8000 — por isso `run_evals.py` tem pausa entre casos.
-- **RAG em pergunta de continuação:** "e o segundo?" não tem palavra-chave, o RAG
-  volta vazio e o modelo se apoia só na memória. Ver `docs/relatorio_evolucao.md` §5.
-- **Contagem de tokens** usa `cl100k_base` (tiktoken) como aproximação — os modelos
-  gpt-oss não estão no registro do tiktoken.
-- **`ev_chargegrid.py` (modo real)** depende de `DATABASE_URL` (Postgres/Supabase);
-  o padrão é o stub.
+- Pergunta encadeada sem palavra-chave ("e o segundo?") não encontra dados na busca e
+  o modelo responde só com o que está na memória.
+- A contagem de tokens usa o tokenizador do GPT-4 como aproximação, porque os modelos
+  `gpt-oss` não têm um público.
+- Os dados de tempo real (estações livres, faturamento) são fixos, pra bateria de
+  testes dar sempre o mesmo resultado.
