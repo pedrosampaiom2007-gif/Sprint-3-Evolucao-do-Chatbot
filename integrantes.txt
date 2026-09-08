@@ -1,15 +1,17 @@
 EV Challenge - GoodWe / FIAP
 Prompt and Artificial Intelligence - Challenge Sprint 03
-Turma: 1CCPG
 Professor: Jorge Luiz Gomes
 
-Integrantes (nome - RM - turma):
+REPOSITORIO:
+https://github.com/pedrosampaiom2007-gif/Sprint-3-Evolucao-do-Chatbot
 
-Luan de Araujo Carneiro        - RM 573691 - 1CCPG
-Pedro Sampaio Mochnacs Arruda  - RM 573522 - 1CCPG
-Raul Sampaio Mochnacs Arruda   - RM 573523 - 1CCPG
-Pedro Ribeiro Lopes            - RM 570083 - 1CCPG
-Kevin Rodrigues de Melo        - RM 571777 - 1CCPG
-Pedro Vianna                   - RM 570747 - 1CCPG
+INTEGRANTES:
 
-Repositorio: https://github.com/pedrosampaiom2007-gif/Sprint-3-Evolucao-do-Chatbot
+Nome                             RM         Turma
+-------------------------------------------------
+Luan de Araujo Carneiro          573691     1CCPG
+Pedro Sampaio Mochnacs Arruda    573522     1CCPG
+Raul Sampaio Mochnacs Arruda     573523     1CCPG
+Pedro Ribeiro Lopes              570083     1CCPG
+Kevin Rodrigues de Melo          571777     1CCPG
+Pedro Vianna                     570747     1CCPG
