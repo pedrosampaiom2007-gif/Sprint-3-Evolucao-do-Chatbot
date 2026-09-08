@@ -23,8 +23,12 @@ except Exception:  # noqa: BLE001
     warnings.filterwarnings("ignore", message=r".*RunnableWithMessageHistory.*")
 
 from src.chain.builder import construir_chain_conversa
-from src.chain.memoria import com_memoria
-from src.guardrails.moderation import RESPOSTA_PADRAO, detectar_injection
+from src.chain.memoria import com_memoria, historico_da_sessao
+from src.guardrails.moderation import (
+    RESPOSTA_PADRAO,
+    detectar_injection,
+    resposta_parece_vazamento,
+)
 from src.guardrails.scope_validator import avaliar_escopo
 
 
@@ -62,23 +66,32 @@ class Assistente:
         if rotulo:
             return Turno(f"{RESPOSTA_PADRAO}   [guardrail: {rotulo}]", f"injection:{rotulo}")
 
-        # dominio_restrito: termos de perigo especificos (juridico / financeiro /
-        # seguranca eletrica) -> encaminha a profissional habilitado.
+        # dominio_restrito (juridico / financeiro / seguranca eletrica) e
+        # comparacao de produtos ("qual e melhor?") -> recusa canonica.
         escopo = avaliar_escopo(pergunta)
-        if escopo.categoria == "dominio_restrito":
+        if escopo.categoria in ("dominio_restrito", "comparacao_produto"):
             sufixo = f"/{escopo.subdominio}" if escopo.subdominio else ""
             return Turno(
-                f"{escopo.resposta_padrao}   [guardrail: dominio_restrito{sufixo}]",
-                f"dominio_restrito{sufixo}",
+                f"{escopo.resposta_padrao}   [guardrail: {escopo.categoria}{sufixo}]",
+                f"{escopo.categoria}{sufixo}",
             )
 
         # fora_de_escopo NAO barra por codigo: a whitelist de palavras-chave dava
         # falso positivo em pergunta legitima ("como e a cobranca no posto?"). Quem
-        # trata "tem restaurante perto?" e a regra <fora_de_escopo> do prompt v2 —
-        # o modelo faz isso bem e nao erra com parafrase.
+        # trata "tem restaurante perto?" e a regra <fora_de_escopo> do prompt v2.
         acesso = self._acesso_padrao if acesso_gestao is None else acesso_gestao
         texto = self._chain.invoke(
             {"pergunta": pergunta, "acesso_gestao": acesso},
             config={"configurable": {"session_id": session_id}},
         )
+
+        # guarda de SAIDA: se o modelo vazou trecho do prompt ou confirmou
+        # "saida de personagem", troca por recusa e NAO grava isso na memoria
+        # (senao o ataque fica "plantado" no historico da sessao).
+        if resposta_parece_vazamento(texto):
+            hist = historico_da_sessao(session_id)
+            if hist.messages:
+                del hist.messages[-2:]  # remove a pergunta + a resposta vazada
+            return Turno(f"{RESPOSTA_PADRAO}   [guardrail: vazamento-na-saida]", "vazamento-na-saida")
+
         return Turno(texto, None)

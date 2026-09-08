@@ -2,11 +2,13 @@
 scope_validator.py — valida se a pergunta esta no escopo GoodWe / EV / CGI ANTES
 de chamar o LLM (bloco C da rubrica).
 
-Tres saidas possiveis:
-  "ok"               -> segue para o chain normalmente.
-  "fora_de_escopo"   -> nao tem a ver com recarga/carro eletrico/CGI. Recusa padrao.
-  "dominio_restrito" -> e sobre aconselhamento juridico / financeiro / seguranca
-                        eletrica. Encaminha a profissional habilitado.
+Saidas possiveis:
+  "ok"                 -> segue para o chain normalmente.
+  "fora_de_escopo"     -> nao tem a ver com recarga/carro eletrico/CGI.
+  "dominio_restrito"   -> aconselhamento juridico / financeiro / seguranca
+                          eletrica. Encaminha a profissional habilitado.
+  "comparacao_produto" -> "qual carro/marca e melhor?" — recusa (o prompt proibe
+                          comparar produtos).
 
 A heuristica e deliberadamente simples (conjuntos de palavras-chave, sem acento).
 Serve de primeiro filtro barato; o system prompt v2 e a rede de tras.
@@ -48,6 +50,22 @@ _TERMOS_SEGURANCA_ELETRICA = {
     "instalar em casa", "ligar direto", "padrao de entrada", "carga do poste",
 }
 
+# comparacao / recomendacao de PRODUTO (marca, modelo de carro, rede concorrente).
+# O prompt proibe "opinar sobre qual e melhor"; aqui a gente ja recusa por codigo.
+_GATILHO_COMPARACAO = {
+    "melhor", "pior", "recomenda", "recomendaria", "recomendacao", "indicaria",
+    "indica", "prefere", "preferivel", "vale mais a pena", "qual comprar",
+    "qual devo comprar", "qual escolher", "qual e o top", "ranking",
+}
+_ALVO_PRODUTO = {
+    "carro", "carros", "modelo", "modelos", "marca", "marcas", "montadora",
+    "fabricante", "rede de recarga", "concorrente", "app concorrente",
+    "byd", "tesla", "nissan", "volkswagen", "chevrolet", "gwm", "toyota",
+    "renault", "fiat", "hyundai", "kia", "caoa", "leaf", "dolphin", "ora",
+}
+_MARCAS = {"byd", "tesla", "nissan", "volkswagen", "chevrolet", "gwm", "toyota",
+           "renault", "fiat", "hyundai", "kia", "leaf", "dolphin", "ora"}
+
 
 @dataclass
 class ResultadoEscopo:
@@ -59,6 +77,11 @@ class ResultadoEscopo:
 _RECUSA_FORA = (
     "So consigo ajudar com questoes relacionadas a carros eletricos e ao "
     "Charge Grid Intelligence."
+)
+_RECUSA_COMPARACAO = (
+    "Nao comparo nem indico marca ou modelo de carro. Posso explicar conceitos "
+    "gerais (autonomia, tipos de conector, cuidados com a bateria) e ajudar com "
+    "o Charge Grid Intelligence."
 )
 _RECUSA_RESTRITO = {
     "juridico": "Isso e uma questao juridica — vale falar com um advogado. "
@@ -118,6 +141,13 @@ def avaliar_escopo(pergunta: str) -> ResultadoEscopo:
     ):
         if _casa_algum(alvo, toks, termos):
             return ResultadoEscopo("dominio_restrito", sub, _RECUSA_RESTRITO[sub])
+
+    # comparacao/recomendacao de produto: gatilho + alvo de produto, OU 2+ marcas.
+    tem_gatilho = _casa_algum(alvo, toks, _GATILHO_COMPARACAO)
+    tem_alvo = _casa_algum(alvo, toks, _ALVO_PRODUTO)
+    n_marcas = len(toks & _MARCAS)
+    if (tem_gatilho and tem_alvo) or n_marcas >= 2:
+        return ResultadoEscopo("comparacao_produto", resposta_padrao=_RECUSA_COMPARACAO)
 
     if _casa_algum(alvo, toks, _TERMOS_ESCOPO):
         return ResultadoEscopo("ok")

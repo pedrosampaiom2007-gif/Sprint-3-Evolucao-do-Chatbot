@@ -9,7 +9,7 @@ demonstrado por um comparativo antes/depois (pasta `comparativo/`).
 
 ---
 
-## Equipe
+## Equipe — Turma 1CCPG
 
 | Nome | RM |
 |------|----|
@@ -30,7 +30,7 @@ demonstrado por um comparativo antes/depois (pasta `comparativo/`).
 | 2 | Memória por sessão com limite de **tokens**, 3+ turnos | `src/chain/memoria.py`, `app.py --demo` |
 | 3 | Structured output Pydantic v2 (`ConsultaRecarga` + `field_validator`) | `src/schemas/consulta_recarga.py` |
 | 4 | Context engineering: prompt versionado (XML) + medição com tiktoken | `prompts/`, `src/contexto.py` |
-| 5 | Segurança e guardrails (jailbreak/injection + escopo GoodWe) | `src/guardrails/` |
+| 5 | Segurança e guardrails — 5 camadas: normalização anti-ofuscação, ~35 padrões PT+EN, escopo GoodWe, prompt v2 reforçado, guarda de saída | `src/guardrails/` + `src/assistente.py` |
 | 6 | Eval set reexecutado + `sprint3_results.json` | `evals/` |
 | 7 | Relatório de modelos e parâmetros | `docs/relatorio_modelos.md` |
 | 8 | Relatório de evolução (PDF, ≤5 pág.) com tabela antes/depois | `docs/relatorio_evolucao.md` → `docs/relatorio_evolucao.pdf` |
@@ -49,15 +49,15 @@ src/
   chain/builder.py         a chain LCEL (conversa -> str · estruturada -> ConsultaRecarga)
   chain/memoria.py         RunnableWithMessageHistory + janela por orçamento de tokens
   schemas/consulta_recarga.py  schema Pydantic v2 do domínio EV
-  guardrails/moderation.py     detecção de jailbreak / prompt injection
-  guardrails/scope_validator.py  escopo GoodWe / recusas de domínio (jurídico/financeiro/elétrico)
+  guardrails/moderation.py     jailbreak/injection: normaliza (anti-ofuscação) + ~35 padrões + guarda de saída
+  guardrails/scope_validator.py  escopo GoodWe / recusas de domínio (jurídico/financeiro/elétrico/comparação)
   rag.py                   RAG por palavra-chave (portado do legado, sem alteração)
   contexto.py              medição de tokens (tiktoken)
   integracao/dados_sistema.py  fonte dos dados de tempo real (stub offline | Postgres real)
   assistente.py            orquestração de um turno (guardrails -> chain -> memória)
   util_formato.py          rede de segurança de formatação (remove tabela/cabeçalho)
 evals/
-  eval_set.json            16 casos: happy path, edge cases, jailbreak, out-of-scope, domínio restrito
+  eval_set.json            24 casos: happy path, edge cases, 12x jailbreak/injection, out-of-scope, domínio restrito
   run_evals.py             reexecuta e mede nota, tokens/turno, latência, acurácia do structured output
   sprint3_results.json     resultado (gerado)
 comparativo/
@@ -131,7 +131,7 @@ tokens (`HistoricoJanelaTokens`, equivalente ao `ConversationTokenBufferMemory`)
 - **Conta Groq (free tier):** só modelos `openai/gpt-oss-*` disponíveis; TPM de
   8000 — por isso `run_evals.py` tem pausa entre casos.
 - **RAG em pergunta de continuação:** "e o segundo?" não tem palavra-chave, o RAG
-  volta vazio e o modelo se apoia só na memória. Ver `docs/relatorio_evolucao.md` §4.
+  volta vazio e o modelo se apoia só na memória. Ver `docs/relatorio_evolucao.md` §5.
 - **Contagem de tokens** usa `cl100k_base` (tiktoken) como aproximação — os modelos
   gpt-oss não estão no registro do tiktoken.
 - **`ev_chargegrid.py` (modo real)** depende de `DATABASE_URL` (Postgres/Supabase);

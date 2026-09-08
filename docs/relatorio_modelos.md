@@ -45,9 +45,9 @@ Medições diretas (mesma pergunta, `temperature=0.4`, `max_tokens=450`,
 | `gpt-oss-120b` | ~1,3–1,5 s | ~70–250 | Um pouco mais lento e mais conciso. Recusas mais firmes em pedido ambíguo. |
 
 Bateria completa de evals rodada no **`gpt-oss-20b` com prompt v2** (`evals/sprint3_results.json`):
-nota média 8,5/10 · checagens 94 % · recusa jailbreak 100 % · recusa
-out-of-scope/domínio 100 % · structured output 100 % (happy path) · latência
-média 0,55 s.
+checagens 100 % (24/24) · recusa jailbreak/injection 100 % (12/12) ·
+recusa out-of-scope/domínio 100 % · structured output 100 % (happy path) ·
+nota média ~9,0/10 (23 casos, LLM-juiz).
 
 Para reexecutar a bateria com o modelo maior:
 `python -m evals.run_evals --prompt v2 --modelo openai/gpt-oss-120b`.
