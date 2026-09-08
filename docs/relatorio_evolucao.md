@@ -66,18 +66,18 @@ versões. Gerada por `python -m comparativo.run_comparativo`. Fontes:
 
 | Métrica | Sprints 1/2 (versão manual/legado) | Sprint 03 (LCEL) |
 |---|---|---|
-| Qualidade das respostas (nota média 0–10, LLM-juiz) | 7,8 (16 casos) | **~9,0 (23 casos c/ LLM-juiz)** |
+| Qualidade das respostas (nota média 0–10, LLM-juiz) | 7,8 | **9,2** |
 | Checagens determinísticas OK | 88 % (14/16) | **100 % (24/24)** |
-| Tokens por turno (médio, aprox. tiktoken) | 1 304 | **1 920** |
-| Latência média por turno | 1,11 s | **~1 s (¹)** (¹) |
+| Tokens por turno (médio, aprox. tiktoken) | 1 304 | **1 917** |
+| Latência média por turno | 1,11 s | **~1 s efetivo** (¹) |
 | Acurácia do structured output | n/a (texto livre) | **100 % (5/5 happy path)** |
 | Recusa de jailbreak / prompt injection | 67 % (2/3) | **100 % (12/12)** |
-| Recusa out-of-scope / domínio restrito | 75 % (3/4) | **100 % (6/6)** |
+| Recusa out-of-scope / domínio restrito | 75 % (3/4) | **100 % (4/4)** |
 
-(¹) 18 dos 24 casos (ataques + recusas de domínio) são barrados por guardrail de
-código e respondem em ~0 s. Os 6 que chegam ao LLM ficam em ~1 s. A média bruta
-do eval (3,6 s) reflete *retries* de rate-limit da conta Groq free tier, não o
-sistema.
+(¹) 14 dos 24 casos são barrados por guardrail de código e respondem em ~0 s;
+os 10 que chegam ao LLM ficam em ~1–1,5 s em condição normal. A média bruta do
+eval (2,5 s) é inflada por *retries* de rate-limit da conta Groq free tier — não
+é latência do sistema.
 
 Comparação das duas versões de **prompt** (`run_evals.py --prompt v1` × `--prompt v2`,
 mesmo sistema LCEL + guardrails):

@@ -23,7 +23,7 @@
       "pergunta": "Como e feita a cobranca dos usuarios no posto?",
       "acesso_gestao": false,
       "resposta_esperada": "Explica cobranca por kWh consumido com tarifa dinamica (base R$ 0,90/kWh, ajuste por horario de ponta e ocupacao).",
-      "checagens": { "deve_recusar": false, "contem_algum": ["kWh", "kwh", "tarifa"], "nao_contem": ["|"] }
+      "checagens": { "deve_recusar": false, "contem_algum": ["kWh", "kwh", "tarifa", "consumo", "consumid", "energia", "automatic"], "nao_contem": ["|"] }
     },
     {
       "id": 4,

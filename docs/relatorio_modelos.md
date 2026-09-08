@@ -47,7 +47,7 @@ Medições diretas (mesma pergunta, `temperature=0.4`, `max_tokens=450`,
 Bateria completa de evals rodada no **`gpt-oss-20b` com prompt v2** (`evals/sprint3_results.json`):
 checagens 100 % (24/24) · recusa jailbreak/injection 100 % (12/12) ·
 recusa out-of-scope/domínio 100 % · structured output 100 % (happy path) ·
-nota média ~9,0/10 (23 casos, LLM-juiz).
+nota média 9,2/10 (24 casos, LLM-juiz gpt-oss-120b).
 
 Para reexecutar a bateria com o modelo maior:
 `python -m evals.run_evals --prompt v2 --modelo openai/gpt-oss-120b`.
