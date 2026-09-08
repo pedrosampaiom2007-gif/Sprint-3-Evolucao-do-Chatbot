@@ -1,20 +1,14 @@
-# Sprint 3 — Refactory conversacional em LangChain
-# Python 3.11+ (o codigo usa `str | None`, `list[dict]` etc.)
+# Chatbot ChargeGrid Intelligence — Sprint 3
+# Python 3.11+
 #
-# Instalar:  pip install -r requirements.txt
+#   pip install -r requirements.txt
 
-langchain-core>=0.3.0     # Runnable, LCEL, ChatPromptTemplate, RunnableWithMessageHistory, trim_messages
-langchain-groq>=0.2.0     # ChatGroq — o LLM do chain (mesma conta Groq que o resto do projeto ja usa)
-pydantic>=2.5.0           # schema de saida estruturada (ConsultaRecarga) + field_validator
-tiktoken>=0.7.0           # medicao de tokens do prompt/resposta (context engineering, Aula 04)
-python-dotenv>=1.0.0      # carrega GROQ_API_KEY do .env
+langchain-core>=0.3.0     # a chain, o prompt, a memoria por sessao
+langchain-groq>=0.2.0     # o modelo
+pydantic>=2.5.0           # schema da resposta estruturada
+tiktoken>=0.7.0           # contagem de tokens
+python-dotenv>=1.0.0      # le a GROQ_API_KEY do .env
 
-# Comparativo: importa o chatbot legado (que faz `from ev_chargegrid import ...`).
-psycopg2-binary>=2.9.0
-
-# Geracao do PDF do relatorio de evolucao (docs/gerar_pdf.py).
+# So para gerar o PDF do relatorio (docs/gerar_pdf.py)
 fpdf2>=2.7.0
 markdown>=3.5
-
-# Opcional — so para rodar o comparativo/chatbot contra o Postgres real (CHARGEGRID_FONTE=real).
-# Precisa de DATABASE_URL no .env.

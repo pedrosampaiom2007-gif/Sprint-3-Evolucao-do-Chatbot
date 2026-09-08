@@ -1,26 +1,20 @@
 """
-Fonte dos dados de tempo real + montagem do <contexto> que vai pro LLM.
+Dados do sistema (tempo real) e montagem do <contexto> que vai junto da pergunta.
 
-Reproduz a `buscar_contexto()` de entregas/chatbot.py (roteador tempo-real x
-historico, fronteira `acesso_gestao`), mas com uma chave: a variavel de ambiente
-CHARGEGRID_FONTE decide de onde vem o dado de tempo real.
+Os numeros de tempo real sao fixos aqui de proposito: assim o eval da o mesmo
+resultado toda vez que roda. Se dependessem do banco ao vivo, rodar a bateria
+duas vezes daria numeros diferentes e a comparacao antes/depois nao valeria.
 
-  CHARGEGRID_FONTE=stub  (default) -> dados fixos abaixo. Roda offline, determina
-                                      o resultado, usado nos evals e no comparativo.
-  CHARGEGRID_FONTE=real            -> importa legado/ev_chargegrid.py e consulta
-                                      o Postgres de verdade (precisa de DATABASE_URL).
-
-O stub existe porque o eval tem que ser reprodutivel: se a resposta dependesse do
-estado ao vivo do banco, rodar o comparativo duas vezes daria numeros diferentes.
+A fronteira `acesso_gestao` e a mesma do sistema em producao: sem ela, o chat so
+enxerga quais estacoes estao livres ou ocupadas — nada de faturamento, sessoes de
+outros clientes ou historico comercial.
 """
 
 from __future__ import annotations
 
-import os
-
 from src.rag import buscar_documentos
 
-# Mesmas palavras-gatilho do legado (entregas/chatbot.py).
+# Palavras que fazem a pergunta ser sobre o estado AGORA, e nao sobre historico.
 PALAVRAS_TEMPO_REAL = [
     "agora", "hoje", "atual", "ativo", "ativa", "livre", "ocupado", "ocupada",
     "faturamento", "sessoes de hoje", "quantas sessoes", "status",
@@ -41,28 +35,7 @@ _STUB_SESSOES_ATIVAS = [
 ]
 
 
-def _fonte_real():
-    """Importa o motor do Sistema-charge-gridd (copiado em legado/)."""
-    import sys
-    from pathlib import Path
-
-    legado = Path(__file__).resolve().parent.parent.parent / "legado"
-    if str(legado) not in sys.path:
-        sys.path.insert(0, str(legado))
-    import ev_chargegrid  # type: ignore
-
-    return ev_chargegrid
-
-
 def _dados_tempo_real() -> dict:
-    if os.environ.get("CHARGEGRID_FONTE", "stub").lower() == "real":
-        ev = _fonte_real()
-        return {
-            "status_estacoes": ev.obter_status_estacoes(),
-            "faturamento_dia": ev.obter_faturamento_dia(),
-            "sessoes_dia": ev.contar_sessoes_dia(),
-            "sessoes_ativas": ev.listar_sessoes_ativas(),
-        }
     return {
         "status_estacoes": _STUB_STATUS_ESTACOES,
         "faturamento_dia": _STUB_FATURAMENTO_DIA,
