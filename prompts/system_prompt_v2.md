@@ -1,7 +1,7 @@
 <!--
 system_prompt_v2 — versao refatorada para a Sprint 3.
 Mudancas vs v1 documentadas em prompts/CHANGELOG_PROMPTS.md (com ganho medido).
-Tecnica principal: XML tagging (Aula 04) — cada secao vira uma tag nomeada, o que
+Cada secao vira uma tag nomeada, o que
 da fronteira explicita e deixa o modelo menos propenso a "misturar" instrucoes de
 secoes diferentes. Tambem: regras invioaveis agrupadas e no topo, exemplos
 concretos de recusa, e clausula anti prompt-injection.

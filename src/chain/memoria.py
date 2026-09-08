@@ -1,5 +1,5 @@
 """
-memoria.py — memoria de conversa por sessao, com limite de TOKENS (Aula 02).
+memoria.py — memoria de conversa por sessao, com limite de tokens.
 
 Diferenca para o legado (`_janela_do_historico` em entregas/chatbot.py): la o corte
 era por CONTAGEM DE MENSAGENS (5 trocas). Aqui e por ORCAMENTO DE TOKENS — 5 trocas

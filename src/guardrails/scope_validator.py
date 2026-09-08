@@ -1,6 +1,6 @@
 """
 scope_validator.py — valida se a pergunta esta no escopo GoodWe / EV / CGI ANTES
-de chamar o LLM (bloco C da rubrica).
+de chamar o LLM.
 
 Saidas possiveis:
   "ok"                 -> segue para o chain normalmente.

@@ -1,9 +1,8 @@
 """
 gerar_pdf.py — converte docs/relatorio_evolucao.md em docs/relatorio_evolucao.pdf.
 
-O enunciado pede o relatorio de evolucao em PDF na pasta docs/. Este script gera
-o PDF a partir do .md (que e a fonte editavel), usando fpdf2 + markdown, sem
-depender de pandoc/LaTeX.
+O .md e a fonte editavel; o PDF sai dele com fpdf2 + markdown, sem depender de
+pandoc nem LaTeX. Depois de editar o .md, rode isto pra atualizar o PDF.
 
     python docs/gerar_pdf.py
 """

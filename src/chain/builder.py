@@ -1,11 +1,11 @@
 """
-builder.py — a chain LCEL end-to-end (Aula 01).
+builder.py — monta a chain do chatbot.
 
     montar_contexto | prompt | llm | parser
 
 Cada `|` liga um Runnable no proximo: a saida da esquerda e a entrada da direita.
-Isso substitui a montagem manual de `messages` + `client.chat.completions.create`
-
+Isso substitui a montagem manual da lista de mensagens e a chamada direta a API,
+que era como a versao anterior funcionava.
 """
 
 from __future__ import annotations

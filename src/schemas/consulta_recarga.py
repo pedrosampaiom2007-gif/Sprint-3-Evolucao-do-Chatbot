@@ -1,5 +1,5 @@
 """
-ConsultaRecarga — schema Pydantic v2 do dominio EV (Aula 03).
+ConsultaRecarga — o formato estruturado da resposta do chatbot.
 
 E o formato que o LLM tem que devolver quando roda pelo chain estruturado
 (`construir_chain_estruturada` em src/chain/builder.py). Em vez de texto solto,

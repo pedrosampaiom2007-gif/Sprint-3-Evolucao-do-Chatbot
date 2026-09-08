@@ -1,5 +1,5 @@
 """
-Medicao de tokens com tiktoken (context engineering, Aula 04).
+Medicao de tokens com tiktoken.
 
 Serve para: (1) preencher a coluna "tokens do prompt" da tabela de versoes
 (prompts/CHANGELOG_PROMPTS.md), (2) medir tokens-por-turno no eval, (3) alimentar

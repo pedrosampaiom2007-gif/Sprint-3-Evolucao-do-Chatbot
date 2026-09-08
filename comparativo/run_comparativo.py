@@ -1,5 +1,5 @@
 """
-run_comparativo.py — a evidencia central do refactory (bloco D da rubrica).
+run_comparativo.py — roda a versao antiga e a nova nos mesmos casos.
 
 Roda o MESMO eval set (evals/eval_set.json) contra a versao MANUAL/LEGADO
 (legado/chatbot_legado.py, o entregas/chatbot.py das Sprints 1/2) e junta com os
