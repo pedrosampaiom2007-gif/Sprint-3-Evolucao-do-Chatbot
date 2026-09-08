@@ -5,15 +5,7 @@ builder.py — a chain LCEL end-to-end (Aula 01).
 
 Cada `|` liga um Runnable no proximo: a saida da esquerda e a entrada da direita.
 Isso substitui a montagem manual de `messages` + `client.chat.completions.create`
-que o entregas/chatbot.py faz na mao.
 
-Dois sabores de chain, porque a Sprint 3 pede as duas coisas e elas nao combinam
-num pipe so:
-  - construir_chain_conversa()   -> saida: str (texto). Usada no app.py com memoria
-                                    (RunnableWithMessageHistory precisa de str/BaseMessage
-                                    para guardar no historico).
-  - construir_chain_estruturada() -> saida: ConsultaRecarga (objeto Pydantic validado).
-                                    Usada no eval de structured output.
 """
 
 from __future__ import annotations
