@@ -2,10 +2,6 @@
 chatbot.py — ChargeGrid Intelligence Assistant, versão local (sem Colab)
 GoodWe Challenge - Sprint 3
 
-Mesma lógica do ChargeGrid_Intelligence_chatbot.ipynb (roteador tempo real
-vs. histórico, RAG com dados_rag.json, IA via Groq) — só que rodando direto
-no seu computador, num terminal, sem precisar de Colab nem upload de nada.
-Reaproveita o mesmo .env que a API já usa (DATABASE_URL, GROQ_API_KEY).
 
 Como rodar:
   cd entregas
