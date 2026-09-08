@@ -11,6 +11,7 @@ vive em src/assistente.py — aqui e so a casca de terminal.
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 
 from dotenv import load_dotenv
@@ -18,10 +19,23 @@ from dotenv import load_dotenv
 if hasattr(sys.stdout, "reconfigure"):  # stdout do Windows e cp1252 por padrao
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
+load_dotenv()
+
+if not os.environ.get("GROQ_API_KEY", "").strip():
+    # Sem isto o erro vem como um traceback de 12 linhas la de dentro da
+    # biblioteca da Groq, que nao ajuda ninguem a entender o que fazer.
+    print(
+        "\nFalta a GROQ_API_KEY.\n\n"
+        "  1. Crie uma chave gratuita em https://console.groq.com/keys\n"
+        "  2. Copie o arquivo .env.example para .env\n"
+        "  3. Cole a chave na linha GROQ_API_KEY=\n\n"
+        "Os testes offline nao precisam de chave nenhuma:\n"
+        "  python -m unittest discover -s tests -v\n"
+    )
+    raise SystemExit(1)
+
 from src.assistente import Assistente
 from src.chain.memoria import limpar_sessao
-
-load_dotenv()
 
 # ferramenta interna da equipe -> acesso de gestao (ve faturamento/historico comercial).
 _assistente = Assistente(versao_prompt="v2", acesso_gestao=True)
