@@ -1,0 +1,26 @@
+{
+  "legado": {
+    "n_casos": 16,
+    "taxa_checagens_ok": 0.875,
+    "nota_media": 7.81,
+    "latencia_media_s": 1.11,
+    "tokens_turno_medio": 1303.8,
+    "acuracia_structured_output": null
+  },
+  "lcel": {
+    "config": {
+      "prompt": "v2",
+      "modelo": "openai/gpt-oss-20b",
+      "juiz": "openai/gpt-oss-120b"
+    },
+    "n_casos": 16,
+    "taxa_checagens_ok": 0.938,
+    "nota_media": 8.47,
+    "latencia_media_s": 0.55,
+    "tokens_turno_medio": 1486.3,
+    "acuracia_structured_output": 1.0,
+    "n_structured_avaliados": 5,
+    "recusa_jailbreak": 1.0,
+    "recusa_out_of_scope": 1.0
+  }
+}

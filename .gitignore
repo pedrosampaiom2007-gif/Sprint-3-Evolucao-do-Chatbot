@@ -1,0 +1,11 @@
+.env
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+.idea/
+.vscode/
+.DS_Store
+
+# NAO ignorar evals/sprint3_results.json — e entregavel obrigatorio da sprint.

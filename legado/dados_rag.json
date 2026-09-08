@@ -1,0 +1,265 @@
+{
+  "fonte": "Trabalho_Analise_Comercial_SP2.xlsx",
+  "descricao": "Base histórica de 60 sessões comerciais de recarga EV — dados reais do projeto ChargeGrid Intelligence",
+  "metricas_gerais": {
+    "total_sessoes": 60,
+    "total_kwh_consumidos": 1460.21,
+    "receita_total_rs": 2701.43,
+    "ticket_medio_rs": 45.02,
+    "consumo_medio_kwh": 24.34,
+    "duracao_media_sessao_h": 2.58,
+    "tarifa_media_rs_por_kwh": 1.85
+  },
+  "receita_por_carregador": [
+    {
+      "estacao": "CP-09",
+      "total_sessoes": 6,
+      "total_kwh": 285.85,
+      "total_receita_rs": 528.84,
+      "ticket_medio_rs": 88.14
+    },
+    {
+      "estacao": "CP-07",
+      "total_sessoes": 11,
+      "total_kwh": 234.2,
+      "total_receita_rs": 433.26,
+      "ticket_medio_rs": 39.39
+    },
+    {
+      "estacao": "CP-08",
+      "total_sessoes": 4,
+      "total_kwh": 199.59,
+      "total_receita_rs": 369.24,
+      "ticket_medio_rs": 92.31
+    },
+    {
+      "estacao": "CP-01",
+      "total_sessoes": 12,
+      "total_kwh": 183.55,
+      "total_receita_rs": 339.58,
+      "ticket_medio_rs": 28.3
+    },
+    {
+      "estacao": "CP-02",
+      "total_sessoes": 8,
+      "total_kwh": 127.56,
+      "total_receita_rs": 236.0,
+      "ticket_medio_rs": 29.5
+    },
+    {
+      "estacao": "CP-05",
+      "total_sessoes": 5,
+      "total_kwh": 107.04,
+      "total_receita_rs": 198.03,
+      "ticket_medio_rs": 39.61
+    },
+    {
+      "estacao": "CP-03",
+      "total_sessoes": 5,
+      "total_kwh": 100.51,
+      "total_receita_rs": 185.95,
+      "ticket_medio_rs": 37.19
+    },
+    {
+      "estacao": "CP-04",
+      "total_sessoes": 5,
+      "total_kwh": 93.46,
+      "total_receita_rs": 172.9,
+      "ticket_medio_rs": 34.58
+    },
+    {
+      "estacao": "CP-10",
+      "total_sessoes": 2,
+      "total_kwh": 79.21,
+      "total_receita_rs": 146.54,
+      "ticket_medio_rs": 73.27
+    },
+    {
+      "estacao": "CP-06",
+      "total_sessoes": 2,
+      "total_kwh": 49.24,
+      "total_receita_rs": 91.09,
+      "ticket_medio_rs": 45.54
+    }
+  ],
+  "sessoes_por_hora": [
+    {
+      "hora": 1,
+      "total_sessoes": 1,
+      "consumo_medio_kwh": 33.47,
+      "custo_medio_rs": 61.92
+    },
+    {
+      "hora": 6,
+      "total_sessoes": 2,
+      "consumo_medio_kwh": 50.29,
+      "custo_medio_rs": 93.04
+    },
+    {
+      "hora": 7,
+      "total_sessoes": 2,
+      "consumo_medio_kwh": 29.88,
+      "custo_medio_rs": 55.28
+    },
+    {
+      "hora": 8,
+      "total_sessoes": 5,
+      "consumo_medio_kwh": 27.94,
+      "custo_medio_rs": 51.68
+    },
+    {
+      "hora": 9,
+      "total_sessoes": 3,
+      "consumo_medio_kwh": 21.54,
+      "custo_medio_rs": 39.85
+    },
+    {
+      "hora": 10,
+      "total_sessoes": 6,
+      "consumo_medio_kwh": 12.65,
+      "custo_medio_rs": 23.41
+    },
+    {
+      "hora": 11,
+      "total_sessoes": 5,
+      "consumo_medio_kwh": 35.12,
+      "custo_medio_rs": 64.96
+    },
+    {
+      "hora": 12,
+      "total_sessoes": 4,
+      "consumo_medio_kwh": 26.99,
+      "custo_medio_rs": 49.93
+    },
+    {
+      "hora": 13,
+      "total_sessoes": 3,
+      "consumo_medio_kwh": 29.18,
+      "custo_medio_rs": 53.98
+    },
+    {
+      "hora": 15,
+      "total_sessoes": 3,
+      "consumo_medio_kwh": 14.08,
+      "custo_medio_rs": 26.05
+    },
+    {
+      "hora": 16,
+      "total_sessoes": 3,
+      "consumo_medio_kwh": 29.27,
+      "custo_medio_rs": 54.16
+    },
+    {
+      "hora": 17,
+      "total_sessoes": 7,
+      "consumo_medio_kwh": 21.03,
+      "custo_medio_rs": 38.9
+    },
+    {
+      "hora": 18,
+      "total_sessoes": 6,
+      "consumo_medio_kwh": 11.51,
+      "custo_medio_rs": 21.3
+    },
+    {
+      "hora": 19,
+      "total_sessoes": 5,
+      "consumo_medio_kwh": 27.53,
+      "custo_medio_rs": 50.93
+    },
+    {
+      "hora": 20,
+      "total_sessoes": 2,
+      "consumo_medio_kwh": 22.48,
+      "custo_medio_rs": 41.6
+    },
+    {
+      "hora": 21,
+      "total_sessoes": 2,
+      "consumo_medio_kwh": 21.73,
+      "custo_medio_rs": 40.2
+    },
+    {
+      "hora": 22,
+      "total_sessoes": 1,
+      "consumo_medio_kwh": 42.69,
+      "custo_medio_rs": 78.98
+    }
+  ],
+  "pico_de_demanda": {
+    "hora_pico": 17,
+    "sessoes_no_pico": 7,
+    "top3_horas_movimento": [
+      17,
+      10,
+      18
+    ],
+    "descricao": "O horário de maior movimento é 17h, com 7 sessões registradas na base histórica."
+  },
+  "receita_por_tipo_carregador": [
+    {
+      "tipo": "DC 22 kW",
+      "total_sessoes": 12,
+      "total_kwh": 564.65,
+      "total_receita_rs": 1044.62,
+      "ticket_medio_rs": 87.05,
+      "duracao_media_h": 2.73
+    },
+    {
+      "tipo": "AC 7,4 kW",
+      "total_sessoes": 30,
+      "total_kwh": 505.08,
+      "total_receita_rs": 934.43,
+      "ticket_medio_rs": 31.15,
+      "duracao_media_h": 2.72
+    },
+    {
+      "tipo": "AC 11 kW",
+      "total_sessoes": 18,
+      "total_kwh": 390.48,
+      "total_receita_rs": 722.38,
+      "ticket_medio_rs": 40.13,
+      "duracao_media_h": 2.25
+    }
+  ],
+  "eficiencia_dlb": [
+    {
+      "status": "DLB Ativo",
+      "total_sessoes": 43,
+      "consumo_medio_kwh": 22.76,
+      "custo_medio_rs": 42.1,
+      "variancia_consumo": 273.05
+    },
+    {
+      "status": "DLB Inativo",
+      "total_sessoes": 17,
+      "consumo_medio_kwh": 28.33,
+      "custo_medio_rs": 52.42,
+      "variancia_consumo": 496.11
+    }
+  ],
+  "frases_contexto_rag": [
+    "CP-09 é o carregador com maior receita histórica: R$ 528.84 em 6 sessões, com ticket médio de R$ 88.14.",
+    "CP-09 gerou 285.9 kWh e R$ 528.84 de receita em 6 sessões históricas. Ticket médio: R$ 88.14.",
+    "CP-07 gerou 234.2 kWh e R$ 433.26 de receita em 11 sessões históricas. Ticket médio: R$ 39.39.",
+    "CP-08 gerou 199.6 kWh e R$ 369.24 de receita em 4 sessões históricas. Ticket médio: R$ 92.31.",
+    "CP-01 gerou 183.6 kWh e R$ 339.58 de receita em 12 sessões históricas. Ticket médio: R$ 28.30.",
+    "CP-02 gerou 127.6 kWh e R$ 236.00 de receita em 8 sessões históricas. Ticket médio: R$ 29.50.",
+    "CP-05 gerou 107.0 kWh e R$ 198.03 de receita em 5 sessões históricas. Ticket médio: R$ 39.61.",
+    "CP-03 gerou 100.5 kWh e R$ 185.95 de receita em 5 sessões históricas. Ticket médio: R$ 37.19.",
+    "CP-04 gerou 93.5 kWh e R$ 172.90 de receita em 5 sessões históricas. Ticket médio: R$ 34.58.",
+    "CP-10 gerou 79.2 kWh e R$ 146.54 de receita em 2 sessões históricas. Ticket médio: R$ 73.27.",
+    "CP-06 gerou 49.2 kWh e R$ 91.09 de receita em 2 sessões históricas. Ticket médio: R$ 45.54.",
+    "Carregador DC 22 kW: 12 sessões, receita total R$ 1044.62, ticket médio R$ 87.05, duração média 2.7h.",
+    "Carregador AC 7,4 kW: 30 sessões, receita total R$ 934.43, ticket médio R$ 31.15, duração média 2.7h.",
+    "Carregador AC 11 kW: 18 sessões, receita total R$ 722.38, ticket médio R$ 40.13, duração média 2.2h.",
+    "O horário de maior movimento histórico é 17h, com 7 sessões registradas.",
+    "Top 3 horários de pico histórico: 17h, 10h, 18h.",
+    "Métricas gerais da base: 60 sessões, 1460.21 kWh consumidos, receita total R$ 2701.43, ticket médio R$ 45.02.",
+    "Consumo médio por sessão: 24.34 kWh. Duração média: 2.58h. Tarifa média: R$ 1.85/kWh.",
+    "DLB Ativo reduz variância do consumo: com DLB Ativo a variância é 273.1, com DLB Inativo é 496.1. DLB Ativo garante estabilidade da rede.",
+    "Custo de instalação médio por ponto de carga: R$ 15.000. Para 50 veículos/dia, recomenda-se ao menos 3 carregadores de 22 kW.",
+    "Cobrança feita por kWh consumido com tarifa dinâmica: R$ 0,90/kWh base, ajustada por horário de ponta real da rede (18h-21h, +30%) e ocupação alta (+15%) — a hora do dia com mais gente carregando entra pelo fator de demanda prevista, não pelo pico.",
+    "Cashback: todo motorista recebe 5% de volta do valor de cada sessão PAGA carregando pela ChargeGrid, mostrado como saldo acumulado em 'Meus pagamentos' no app. Ainda não tem resgate — é o benefício de usar a plataforma, não um cartão de crédito com saque."
+  ]
+}

@@ -1,0 +1,15 @@
+EV Challenge — GoodWe / FIAP
+Prompt and Artificial Intelligence — Challenge Sprint 03
+Turma: Ciencia da Computacao — 2o semestre — 2026.2
+Professor: Jorge Luiz Gomes
+
+Integrantes (nome — RM — turma):
+
+Luan de Araujo Carneiro        — RM 573691 — CC 2o semestre / 2026.2
+Pedro Sampaio Mochnacs Arruda  — RM 573522 — CC 2o semestre / 2026.2
+Raul Sampaio Mochnacs Arruda   — RM 573523 — CC 2o semestre / 2026.2
+Pedro Ribeiro Lopes            — RM 570083 — CC 2o semestre / 2026.2
+Kevin Rodrigues de Melo        — RM 571777 — CC 2o semestre / 2026.2
+Pedro Vianna                   — RM 570747 — CC 2o semestre / 2026.2
+
+Repositorio: https://github.com/pedrosampaiom2007-gif/Sprint-3-Evolucao-do-Chatbot
